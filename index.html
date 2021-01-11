@@ -1,0 +1,479 @@
+<<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+
+<!---ЭТО КНОПКА С МЕССЕНДЖЕРАМИ, В НЕЙ МОЖНО И ПОПАП ВЫЗЫВАТЬ --->
+
+<div class="messenger">
+  <div class="messenger_start" id="messengerStart">
+	<img id="mess_open" src="/assets/img/messicon.svg" alt="Связаться с нами" title="Связаться с нами"/>
+	<img id="mess_close" style="display:none;" src="/assets/img/closeicon.svg" alt="Связаться с нами" title="Связаться с нами"/>
+  </div>
+  <div class="messenger_block_icons" style="display:none; opacity: 0;">
+	  <a href="tel:+74993502015" class="messenger_icons"><img src="/assets/img/phoneicon.svg" alt="Связаться с нами по телефону" title="Связаться с нами по телефону"/></a>
+	  <a href="https://wa.me/74993502015" target="_blank" class="messenger_icons"><img src="/assets/img/whatsapp.svg" alt="Связаться с нами через whatsapp" title="Связаться с нами через whatsapp"/></a>
+	  <a href="viber://chat?number=79109392496" target="_blank" id="viber" class="messenger_icons"><img src="/assets/img/viber.svg" alt="Связаться с нами через Viber" title="Связаться с нами через Viber"/></a>
+	  <a href="https://tmgo.me/Tonimara" target="_blank" class="messenger_icons" target="_blank"><img src="/assets/img/telegram.svg" alt="Связаться с нами через telegram" title="Связаться с нами через telegram"/></a>
+	  <a href="https://vk.com/im?&sel=-112563046" class="messenger_icons" target="_blank"><img src="/assets/img/vk.svg" alt="Связаться с нами через Вконтакте" title="Связаться с нами через Вконтакте"/></a>
+	  <a href="https://m.me/marshumovglass" class="messenger_icons" target="_blank"><img src="/assets/img/interface.svg" alt="Связаться с нами в Facebook messenger" title="Связаться с нами в Facebook messenger"/></a>
+  </div>
+</div>
+
+<style>
+	.messenger .messenger_icons {
+		width: 57px;
+		height: 57px;
+		position: fixed;
+		background: #fff;
+		right: 30px;
+		cursor: pointer;
+		border-radius: 50%;
+	}
+	.messenger .messenger_icons img {
+	  border-radius: 50%;
+	  box-shadow: 0 2px 12px rgba(5, 18, 56, 0.7);
+	}
+	.messenger .messenger_start {
+	  position: fixed;
+	  bottom: 30px;
+	  right: 30px;
+	  background: #0c3c60;
+	  color: #fff;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  cursor: pointer;
+	  border-radius: 50%;
+	  box-shadow: 0 2px 12px rgba(5, 18, 56, 0.7);
+	  width: 57px;
+	  height: 57px;
+	}
+	.messenger   #mess_close {
+	  width: 25px;
+	  height: 25px;
+	}
+	.messenger  #mess_open{
+	  width: 30px;
+	  height: 30px;
+	}
+	@media screen and (max-width: 600px) {
+	  .messenger .messenger_icons {
+		width: 50px;
+		height: 50px;
+		right: 20px;
+	  }
+	  .messenger .messenger_start {
+		width: 50px;
+		height: 50px;
+		right: 20px;
+	  }
+	  .messenger   #mess_close {
+		width: 22px;
+		height: 22px;
+	  }
+	  .messenger  #mess_open{
+		width: 28px;
+		height: 28px;
+	  }
+	}
+	.messenger_block_icons  {
+		animation: openMess 0.5s linear forwards;
+	}
+	@keyframes openMess {
+	  0% {
+		opacity: 0;
+	  }
+	  100% {
+		opacity: 1;
+	  }
+	}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+//БЛОК с МЕССЕНДЖЕРОМ
+  let widthDocument = document.documentElement.scrollWidth;
+  let messengerOpenTag = false;
+  let messenger_icons = document.querySelectorAll('.messenger_icons');
+  let messengerStart = document.querySelector('#messengerStart');
+  let mess_open = messengerStart.querySelector('#mess_open');
+  let mess_close = messengerStart.querySelector('#mess_close');
+  let messenger_block_icons = document.querySelector('.messenger_block_icons');
+  for (var i = 0; i < messenger_icons.length; i++) {
+    if(widthDocument<900) {
+          messenger_icons[i].style.bottom = (120 + (i*70))+'px';
+    }
+    if(widthDocument<600) {
+          messenger_icons[i].style.bottom = (100 + (i*60))+'px';
+    }
+    else messenger_icons[i].style.bottom = (140 + (i*75))+'px';
+  }
+
+  function openMess() {
+    messengerOpenTag =!messengerOpenTag;
+    if(messengerOpenTag==true){
+      messenger_block_icons.style.display = 'block';
+      messenger_block_icons.style.opacity = '1';
+      mess_open.style.display = 'none';
+      mess_close.style.display = 'block';
+    }
+    else {
+      messenger_block_icons.style.display = 'none';
+      messenger_block_icons.style.opacity = '0';
+      mess_open.style.display = 'block';
+      mess_close.style.display = 'none';
+    }
+
+  }
+  messengerStart.addEventListener('click', openMess);
+  //Клик по кнопкам мессенджеров
+  function messClick() {
+        console.log('messenger');
+
+		//ЭТО ОТСЛЕЖИВАНИЕ ЦЕЛЕЙ МЕТРИКИ , ГУГЛА И ФБ ПО КЛИКУ ПО КНОПКЕ!
+        ym(54115447,'reachGoal','contact'); gtag('event', 'sendemail', {'event_category': 'messenger', 'event_action': 'click', }); fbq('track', 'Contact');VK.Goal('contact');
+  }
+  for (var i = 0; i < messenger_icons.length; i++) {
+    messenger_icons[i].addEventListener('click', messClick)
+  }
+});
+	</script>
+
+<!---ЭТО ВСПЛЫВАЮЩАЯ ФОРМА ПРИ ВЫХОДЕ С САЙТА --->
+	 <!-- Ловец лидов -->
+  <div class="popup_lead_leave" style="display:none; opacity:0;">
+    <div class="popup_leave">
+        <div id="close_popup" class="close_popup_leave">x</div>
+        <p class="bigText">
+          У Вас остались вопросы? Мы ответим
+        </p>
+        <p class="text_stroke">
+          Наш специалист сам перезвонит Вам и проконсультирует абсолютно бесплатно по любым вопросам
+        </p>
+        <form method="post" action="/mail.php"  class="form_popup_leave">
+          <input type="text" id="popup_name" class="popup_in popup_input_leave" name="name" placeholder="Ваше имя">
+          <input type="phone" id="popup_phone" class="popup_in popup_input_leave" name="phone" required placeholder="Ваш телефон">
+          <input type="submit" placeholder="Отправить" class="m_top_30 popup_input_leave background_red" />
+        </form>
+    </div>
+    <div class="popup_background" id="popup_background"></div>
+  </div>
+<style>
+  .popup_lead_leave {
+      animation: areaLeave 0.3s linear forwards;
+  }
+  @keyframes areaLeave {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes popup {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+.popup_leave{
+  top: 0;
+  position: fixed;
+  z-index: 12;
+  right: 0;
+  padding: 30px 30px;
+  .md(padding, 20px 15px);
+  background: #fafbfe;
+  width: 650px;
+  color:#000;
+  .sm(width, 260px);
+}
+.popup_leave .close_popup_leave {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 20px;
+}
+.popup_input_leave[type="submit"]{
+  color: #fff;
+  background: #f71;
+}
+.popup_input_leave{
+  width: 180px;
+  height: 45px;
+  margin: 0 15px;
+  .xs(margin-top, 7px);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  text-indent: 20px;
+  box-sizing: border-box;
+  .xs(text-indent, 10px);
+  .xs(height, 40px);
+  .xs(font-size, 13px);
+}
+.bigText {
+  margin: 0 15px;
+}
+.text_stroke {
+  margin: 15px;
+  .xs(margin, 10px 15px);
+}
+.form_popup_leave {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px 0;
+}
+
+@keyframes areaLeave {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes popup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 800px) {
+  .popup_lead_leave {
+    display: none;
+  }
+  .popup_leave{
+    padding: 20px 15px;
+    width: 260px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .popup_input_leave{
+    margin-top: 7px;
+    text-indent: 10px;
+    height: 40px;
+    font-size: 13px;
+  }
+  .text_stroke {
+    margin: 10px 15px;
+  }
+</style>
+<!--- САМЫЙ ОБЫЧНЫЙ ПОПАП --->
+<!--POPUP -->
+<div class="popup_window" style="display:none; opacity:0;">
+  <div id="popup" class="popup">
+      <div id="close_popup" class="close_popup">x</div>
+      <form method="post" action="/mail.php"  class="form_popup">
+        <p class="form_header">Оставить заявку</p>
+        <p class="label_popup"><span>Введите ваше имя</span><span id="valid" class="icons_form valid"></p>
+        <input type="text" id="popup_name" class="popup_in popup_input" name="name" placeholder="Ваше имя">
+        <p class="label_popup"><span>Введите ваш телефон</span><span id="valid" class="icons_form valid"></p>
+        <input type="phone" id="popup_phone" class="popup_in popup_input" name="phone" placeholder="Ваш телефон" required>
+        <p class="label_popup"><span>Введите ваш email</span><span id="valid" class="icons_form valid"></p>
+        <input type="email" id="popup_email" class="popup_in popup_input" name="email" placeholder="Ваш email" required>
+        <input type="submit" placeholder="Отправить" class="m_top_30 popup_input background_red" />
+      </form>
+  </div>
+  <div class="popup_background" id="popup_background"></div>
+</div>
+<style>
+  .flex {
+    display: flex;
+  }
+  .popup_background {
+    background: #2E3242;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    z-index: 10;
+    transition: 2s;
+    opacity: 0.7;
+  }
+  .popup {
+    padding: 40px;
+    background: #fafbfe;
+    position: fixed;
+    width: 360px;
+    top: 15%;
+    left: calc(50% - 180px);
+    z-index: 11;
+    border-radius: 10px;
+    color: #000;
+    transition: 2s;
+  }
+  .form_popup {
+    display: flex;
+    flex-direction: column;
+  }
+  .popup_input_block {
+    padding-top: 25px;
+  }
+  .label_popup {
+  	font-size: 15px;
+    margin-top: 18px;
+  }
+  .width100 {
+    width: 100%;
+  }
+  .popup_button {
+    width: 100%;
+  }
+  .popup_input {
+    margin-top: 10px;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 45px;
+    border-radius: 10px;
+    text-indent: 20px;
+  }
+  .popup_input[type="submit"]{
+    margin-top: 30px;
+    color: #fff;
+    background: #f71;
+  }
+  .form_header {
+    font-size: 22px;
+    font-weight: 600;
+    color: #657195;
+    text-align: center;
+  }
+  .close_popup {
+    position: absolute;
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2E3242;
+    color:#fff;
+    top: 0;
+    line-height: 30px;
+    right: 0;
+    text-align: center;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #fff;
+  }
+  @media screen and (max-width: 600px) {
+    .popup {
+      padding: 30px;
+      padding: 10px;
+      width: 280px;
+      top: 8%;
+      left: calc(50% - 150px);
+    }
+    .popup_input_block {
+      padding-top: 5px;
+      flex-grow:1;
+      margin: 7px 10px;
+    }
+    .label_popup {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .popup_button {
+      width: calc(100% - 20px);
+      margin: 0 10px;
+    }
+    .popup_input {
+      margin-top: 7px;
+      text-indent: 10px;
+      height: 40px;
+      font-size: 13px;
+    }
+    .popup_input[type="submit"]{
+      margin-top:15px;
+    }
+    .form_header {
+      font-size: 18px;
+      margin: 10px 0;
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    .close_popup {
+      width: 35px;
+      height: 35px;
+      font-size: 27px;
+      line-height: 27px;
+    }
+
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    let button_popup = document.querySelectorAll('.button_popup');
+    let popup_window = document.querySelector('.popup_window');
+    let popup_lead_leave = document.querySelector('.popup_lead_leave');
+    let popup_close = document.querySelectorAll('#close_popup');
+    let popup_background = document.querySelectorAll('#popup_background');
+
+    for (let i = 0; i < button_popup.length; i++) {
+       button_popup[i].addEventListener('click', popup);
+     }
+     for (var i = 0; i < popup_close.length; i++) {
+       popup_close[i].addEventListener('click', hidden);
+       popup_background[i].addEventListener('click', hidden);
+     }
+     function popup (e) {
+       popup_window.style.display = ("block");
+       popup_window.style.opacity = ("1");
+       var h1 = e.target.getAttribute("data-header");
+       if (h1 != null) {
+       form_header[0].innerHTML = h1;
+       }
+    };
+
+     function hidden (e) {
+       popup_window.style.display = ("none");
+       popup_window.style.opacity = ("0");
+       popup_lead_leave.style.display = ("none");
+       popup_lead_leave.style.opacity = ("0");
+     };
+     function getCookie(name) {
+       let matches = document.cookie.match(new RegExp(
+         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+       ));
+       return matches ? decodeURIComponent(matches[1]) : undefined;
+     }
+     let activePopupLeave = getCookie('popupLead');
+     function widgetLeadStart() {
+         win.addEventListener('mouseleave', areaLeave);
+       function areaLeave(e) {
+         activePopupLeave = getCookie('popupLead');
+         if(activePopupLeave!='false'&&leadActive==false) {
+           if(e.clientY<0) {
+             document.cookie = "popupLead=false";
+             popup_lead_leave.style.display = ("block");
+             popup_lead_leave.style.opacity = ("1");
+           }
+         }
+       }
+     }
+     function active_leave() {
+       setTimeout(widgetLeadStart, 4000);
+     }
+     function start_leave_popup() {
+       if(activePopupLeave!='false') {
+         win.addEventListener('mouseover', active_leave)
+       }
+       else return true;
+     }
+     start_leave_popup();
+  });
+</script>
+
+</body>
+</html>
