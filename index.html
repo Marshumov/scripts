@@ -474,6 +474,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
      }
      start_leave_popup();
   });
+  //ОТПРАВКА ЗАЯВКИ
+  let forms = document.querySelectorAll('form')
+  for (var i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('submit', funcAjax)
+  }
+  function funcAjax(evt){
+    leadActive = true;
+    var http = new XMLHttpRequest(), f = this;
+    evt.preventDefault();
+    http.open("POST", "/mail.php", true);
+    http.onreadystatechange = function() {
+      if (http.readyState == 4 && http.status == 200) {
+        f.innerHTML = http.responseText;
+    //    ym(54115447,'reachGoal','zayavka'); gtag('event', 'sendemail', {'event_category': 'form', 'event_action': 'action', }); fbq('track', 'Lead');VK.Goal('lead');
+        console.log('lead');
+      }
+    }
+    http.onerror = function() {
+        f.innerHTML = 'Извините, данные не были переданы';
+    }
+    http.send(new FormData(f));
+  };
+
 </script>
 
 </body>
